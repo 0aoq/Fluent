@@ -134,8 +134,15 @@ local _0aoq_fluent = {}; do
                     TweenService:Create(self, TweenInfo.new(0.05), {BackgroundTransparency = 0}):Play()
                 end,
             },
-            FluentEmpty = {Opacity = 1},
-            ["<head>"] = {Opacity = 1}
+            FluentCenter = {
+                Opacity = 1;
+                sizeX = 1;
+                sizeY = 1;
+                isFlex = true;
+                alignX = "Center";
+                alignY = "Center";
+            },
+            FluentEmpty = {Opacity = 1}
         }
 
         -- table of all values WITH A FUNCTION TO CALL
