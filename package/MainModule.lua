@@ -113,6 +113,15 @@ local _0aoq_fluent = {}; do
     })
 
     local internal = {}; do
+        internal.setMeta = function(__, isContainer: boolean, rendered: boolean, isSpecialInstance: boolean)
+            return __:SetAttribute("fluentMeta", game:GetService("HttpService"):JSONEncode({
+                renderedAt = os.time(),
+                isContainer = isContainer,
+                rendered = rendered,
+                isSpecialInstance = isSpecialInstance
+            }))
+        end
+        
         internal.styleSheet = {
             FluentButton = {
                 Background = Color3.fromRGB(255, 255, 255);
@@ -162,6 +171,7 @@ local _0aoq_fluent = {}; do
                     UiListLayout.VerticalAlignment = Enum.VerticalAlignment[style.alignY]
                     UiListLayout.SortOrder = Enum.SortOrder[style.flexOrder]
                     UiListLayout.Padding = UDim.new(style.flexPadding or 0, 0)
+                    internal.setMeta(UiListLayout, false, true, true)
                 end
             end; internal.styleValues.BoxShadow = function(component, style) -- @fluent_style:BoxShadow
                 local frame = Instance.new("Frame", component.Parent)
@@ -207,6 +217,9 @@ local _0aoq_fluent = {}; do
                 component.ZIndex = component.ZIndex + 1
                 boxshadow.ZIndex = component.ZIndex - 1
                 frame.ZIndex = component.ZIndex
+                
+                internal.setMeta(boxshadow, false, true, true)
+                internal.setMeta(frame, true, true, true)
             end; internal.styleValues.BorderRadius = function(component, style) -- @fluent_style:BorderRadius
                 Instance.new("UICorner", component).CornerRadius = UDim.new(style.BorderRadius or 0, 0)
             end; internal.styleValues.Padding = function(component, style)
@@ -216,7 +229,7 @@ local _0aoq_fluent = {}; do
 
                     tempInstance.PaddingLeft = UDim.new(style.PaddingLeft, 0)
                     tempInstance.PaddingRight = UDim.new(style.PaddingRight, 0)
-                end
+                end; internal.setMeta(tempInstance, false, true, true)
             end; internal.styleValues.Border = function(component, style)
                 local tempInstance = Instance.new("UIStroke", component); do
                     style.BorderApplyMode = style.BorderApplyMode or "Contextual"
@@ -229,7 +242,7 @@ local _0aoq_fluent = {}; do
                     tempInstance.LineJoinMode = Enum.LineJoinMode[style.BorderJoinMode]
 
                     tempInstance.Name = "FLUENT_UI_STROKE"
-                end
+                end; internal.setMeta(tempInstance, false, true, true)
             end
         end
 
@@ -386,10 +399,10 @@ local _0aoq_fluent = {}; do
 
                 if (name == "<head>") then 
                     componentConfig.type = "Folder"
-                    componentConfig.name = "<fluent>" .. name .. "</fluent>"
+                    componentConfig.name = name
                 elseif (table.find(internal.markupStyles, name)) then 
                     componentConfig.type = "StringValue"
-                    componentConfig.name = "<fluent>" .. name .. "</fluent>"
+                    componentConfig.name = name
                 end
 
                 local __ = Instance.new(componentConfig.type, componentConfig.container)
@@ -401,6 +414,9 @@ local _0aoq_fluent = {}; do
                 local style = _0aoq_fluent.bin.getStyle(componentConfig.name)
                 internal.scanContainer(componentConfig.container, style, true)
                 internal.styleComponent(__, style)
+                
+                internal.setMeta(componentConfig.container, true, true, false)
+                internal.setMeta(__, false, true, false)
 
                 return __
             end
