@@ -7,7 +7,7 @@ OPEN SOURCE AT: https://github.com/0aoq/FluentUi
 
 local FluentTypes = require(script.lib.Types)
 local internal = require(script.lib.core["<fluent>"])
-local components = require(script.lib.core["<fluent_component>"])
+local state_manager = require(script.lib.core["<fluent_component>"])
 local markup = require(script.lib.Markup)
 
 local _0aoq_fluent = {}; do
@@ -65,13 +65,14 @@ local _0aoq_fluent = {}; do
         local function ENCODE(json) return game:GetService("HttpService"):JSONEncode(json) end
         return ENCODE(internal.styleSheet), ENCODE(internal.components)
     end
-
-    -- /// START SECTION: Markup
-
+	
+	-- define functions that are defined in other files
+	
     _0aoq_fluent.file = {}; do
-		_0aoq_fluent.file.load = function(fileName: string) return markup.file.load(fileName) end
-		_0aoq_fluent.file.create = function(file: FluentTypes.fluent_file) return markup.file.create(file); end
-    end
-
-    -- /// END SECTION: Markup
+		_0aoq_fluent.file.load = markup.file.load
+		_0aoq_fluent.file.create = markup.file.create
+	end
+	
+	_0aoq_fluent.createComponent = state_manager.components.createComponent
+	_0aoq_fluent.addComponent = state_manager.components.addComponent
 end; return _0aoq_fluent
