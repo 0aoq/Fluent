@@ -17,7 +17,7 @@
     <nav class="box-shadow text-center mb-50px ui-fixed-nav" style="padding: .2em 6rem;">
         <div class="flex" style="gap: 1.5em; width: 100%;">
             <a class="text small button" href="https://0aoq.github.io/Fluent">Fluent</a>
-            <a class="text small button" href="#"></a>
+            <a class="text small button" href="https://github.com/0aoq/Fluent/tree/main/docs/view/md"></a>
             <a class="text small" href="https://0aoq.github.io/Fluent/view/?md/index.md">Home</a>
             <a class="text small" href="javascript://" onclick="returnBack()">&lt;&#45; Go Back</a>
         </div>
@@ -30,6 +30,11 @@
                 <template data-merge="prepend">
                     <link rel="stylesheet" href="../styles/elements.css">
                 </template>
+
+                <script type="text/markdown">
+<h2 align="center">404</h2><br>
+<p align="center">The requested file could not be found on this server, and it was not loaded.</p>
+                </script>
             </zero-md>
             <br><br>
         </div>
@@ -44,11 +49,10 @@
 
         document.title = `Viewing ${window.location.search.slice(1)} - [0aoq/docs]`
         document.querySelectorAll("a.text.small.button")[1].innerText = window.location.search.slice(1)
-        document.querySelectorAll("a.text.small.button")[1].href = window.location.search.slice(1)
 
         const id = window.location.search.slice(1)
 
-        if (id.split(".").includes("md") || return_pages.includes(id)) {
+        if (id.split(".").includes("md")) {
             if (!id.split("://").includes("https") || id.split("://").includes("https")) {
                 document.querySelector("zero-md").src = id
             } else {
