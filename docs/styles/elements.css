@@ -396,7 +396,7 @@ nav a {
     transition: all 0.15s;
     outline: none;
     border-radius: .2em;
-    border: none;
+    border: none !important;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;

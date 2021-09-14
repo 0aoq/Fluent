@@ -46,7 +46,11 @@
 
         const return_pages = ["404"]
         if (id.split(".").includes("md") || return_pages.includes(id)) {
-            document.querySelector("zero-md").src = id
+            if (!id.split("://").includes("https") || id.split("://").includes("https")) {
+                document.querySelector("zero-md").src = id
+            } else {
+                console.error('Security: Cannot load files from a url.')
+            }
         }
     </script>
 </body>
