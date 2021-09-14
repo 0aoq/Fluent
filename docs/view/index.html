@@ -16,8 +16,9 @@
 <body>
     <nav class="box-shadow text-center mb-50px ui-fixed-nav" style="padding: .2em 6rem;">
         <div class="flex" style="gap: 1.5em; width: 100%;">
-            <a class="text small button" href="index.html">Fluent</a>
-            <a class="text small" href="?404">Home</a>
+            <a class="text small button" href="https://0aoq.github.io/Fluent">Fluent</a>
+            <a class="text small" href="https://0aoq.github.io/Fluent/view/?md/index.md">Home</a>
+            <a class="text small" href="javascript://" onclick="window.history.back()">&lt;&#45;</a>
         </div>
     </nav>
 
@@ -29,6 +30,7 @@
                     <link rel="stylesheet" href="../styles/elements.css">
                 </template>
             </zero-md>
+            <br><br>
         </div>
     </div>
 
@@ -42,9 +44,7 @@
         document.querySelector("a.text.small.button").href = window.location.search.slice(1)
 
         const id = window.location.search.slice(1)
-        const arr = id.split("/")
 
-        const return_pages = ["404"]
         if (id.split(".").includes("md") || return_pages.includes(id)) {
             if (!id.split("://").includes("https") || id.split("://").includes("https")) {
                 document.querySelector("zero-md").src = id
