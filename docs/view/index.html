@@ -17,12 +17,13 @@
     <nav class="box-shadow text-center mb-50px ui-fixed-nav" style="padding: .2em 6rem;">
         <div class="flex" style="gap: 1.5em; width: 100%;">
             <a class="text small button" href="https://0aoq.github.io/Fluent">Fluent</a>
+            <a class="text small button" href="#"></a>
             <a class="text small" href="https://0aoq.github.io/Fluent/view/?md/index.md">Home</a>
-            <a class="text small" href="javascript://" onclick="window.history.back()">&lt;&#45;</a>
+            <a class="text small" href="javascript://" onclick="returnBack()">&lt;&#45; Go Back</a>
         </div>
     </nav>
 
-    <div class="flex flex-just-center mt-50px">
+    <div class="flex flex-just-center" style="margin-top: 75px;">
         <div class="container-xl flex flex-just-center" id="mdbox">
             <zero-md src="${id}" no-shadow="true">
                 <!-- Style template prepended before default styles -->
@@ -35,13 +36,15 @@
     </div>
 
     <script>
+        function returnBack() { window.history.back() }
+
         if (!window.location.search.slice(1)) {
             window.location = "?404"
         }
 
         document.title = `Viewing ${window.location.search.slice(1)} - [0aoq/docs]`
-        document.querySelector("a.text.small.button").innerText = window.location.search.slice(1)
-        document.querySelector("a.text.small.button").href = window.location.search.slice(1)
+        document.querySelectorAll("a.text.small.button")[1].innerText = window.location.search.slice(1)
+        document.querySelectorAll("a.text.small.button")[1].href = window.location.search.slice(1)
 
         const id = window.location.search.slice(1)
 
