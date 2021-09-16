@@ -32,12 +32,12 @@ local import = {}; do
 
 			local name = componentConfig.componentName
 
-			if (name == "<head>") then 
+			if (name == "head") then 
 				componentConfig.type = "Folder"
-				componentConfig.name = name
+				componentConfig.name = "<" .. name .. ">"
 			elseif (table.find(internal.markupStyles, name)) then 
 				componentConfig.type = "StringValue"
-				componentConfig.name = name
+				componentConfig.name = "<" .. name .. ">"
 			end
 
 			local __ = Instance.new(componentConfig.type, componentConfig.container)

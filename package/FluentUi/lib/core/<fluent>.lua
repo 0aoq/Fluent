@@ -64,7 +64,7 @@ local internal = {}; do
 
 	-- table of all values WITH A FUNCTION TO CALL
 	internal.styles = {"BorderRadius", "isFlex", "BoxShadow", "Padding", "Border"}
-	internal.markupStyles = {"<head>", "<title>", "<author>"} -- (render folders/string values)
+	internal.markupStyles = {"head", "title", "author"} -- (render folders/string values)
 
 	-- style functions
 	internal.styleValues = {}; do

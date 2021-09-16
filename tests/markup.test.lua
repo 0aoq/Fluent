@@ -10,10 +10,12 @@ OPEN SOURCE AT: https://github.com/0aoq/FluentUi
 local Fluent = require(game.ReplicatedStorage.FluentUi); Fluent.mount(script.Parent)
 Fluent.file.create({Name = "Index", Contents = {
     -- doc
-    {tag = ("<head>"), par = script.Parent, con = {
-        {tag = ("<author>"), par = ("^"), MARKUP_VALUE = ("0a_oq")}
-    }};
+	{'<head? parent="&;">', {
+		{'<author? parent="^">0a_oq'}
+	}};
 
     -- workspace
-    {tag = ("FluentButton"), typ = ("TextButton"), par = (script.Parent)}
-}}); Fluent.file.load("Index")
+	{'<FluentCenter? type="Frame" parent="&;">', {
+		{'<FluentButton? type="TextButton" parent="^">'}
+	}}
+}}); Fluent.file.load("Index", script.Parent)
