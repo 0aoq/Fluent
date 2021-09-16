@@ -8,6 +8,7 @@ Primary markup file manager
 --]]
 
 local FluentTypes = require(script.Parent.Types)
+local Fluent = require(script.Parent.core["<fluent>"])
 local state_manager = require(script.Parent.core["<fluent_component>"])
 
 local import = {}; do
@@ -22,7 +23,11 @@ local import = {}; do
 
 		import.file.load = function(fileName: string, container)
 			local file = files[fileName]; if (not file) then return warn("[Fluent]: File does not exist!"); end
-
+			
+			local temp_container = Instance.new("ScreenGui", container)
+			temp_container.Name = fileName; container = temp_container
+			local src = Instance.new("Folder", container); src.Name = "<src?>"
+			
 			local pre = nil -- previously rendered component
 			local function __(c, cont)
 				for _,x: FluentTypes.fluent_file_content in pairs(c) do
@@ -53,6 +58,7 @@ local import = {}; do
 					if (x.con) then __(x.con, pre); end -- create components for nested markup
 				end
 			end; __(file.Contents, container)
+			return file, src
 		end
 
 		import.file.create = function(file: FluentTypes.fluent_file) files[file.Name] = file; end
