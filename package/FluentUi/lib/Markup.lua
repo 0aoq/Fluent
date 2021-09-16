@@ -24,7 +24,7 @@ local import = {}; do
 			local file = files[fileName]; if (not file) then return warn("[Fluent]: File does not exist!"); end
 
 			local pre = nil -- previously rendered component
-			local function __(c)
+			local function __(c, cont)
 				for _,x: FluentTypes.fluent_file_content in pairs(c) do
 					-- split markup tags
 					local t = x[1]; local c = t:split("<")[2]
@@ -34,25 +34,25 @@ local import = {}; do
 					x.typ = getTag(after, "type") -- <TagName? type="__THIS">
 					
 					local specialValues = {"&;", "^"} -- special values that won't load from container
-					local __par = getTag(after, "parent"); if (not table.find(specialValues, __par)) then 
-						x.par = x.par or container[__par] or nil; else 
+					local __par = getTag(after, "parent"); if (not table.find(specialValues, __par) and __par) then 
+						x.par = x.par or cont[__par] or nil; else 
 						x.par = __par or x.par or nil; end
 
 					x.MARKUP_VALUE = x.MARKUP_VALUE or t:split(">")[2] -- <TagName? value="">THIS
 					x.con = x.con or x[2]
 
 					-- render component
-					if (x.par == "&;") then x.par = container; end
+					if (x.par == "&;") then x.par = cont; end
 					if (x.par == "^") then x.par = pre; end
 					pre = state_manager.components.addComponent({ -- create each component
 						componentName = x.tag or "FluentEmpty",
 						type = x.typ or "Frame",
-						container = x.par or container
+						container = x.par or cont
 					}, x.opt or function() end, x.MARKUP_VALUE or '{"FLUENT_VALUE":"empty_object"}')
 
-					if (x.con) then __(x.con); end -- create components for nested markup
+					if (x.con) then __(x.con, pre); end -- create components for nested markup
 				end
-			end; __(file.Contents)
+			end; __(file.Contents, container)
 		end
 
 		import.file.create = function(file: FluentTypes.fluent_file) files[file.Name] = file; end
