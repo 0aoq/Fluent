@@ -9,6 +9,7 @@ Primary internal script. Responsible for all component styling
 
 local Definitions = require(script.Parent.Parent.Definitions)
 local FluentTypes = require(script.Parent.Parent.Types)
+local String = {variable = require(script.Parent.Parent.packages["String.variable"])};
 local TweenService = game:GetService("TweenService")
 
 local internal = {}; do
@@ -154,14 +155,20 @@ local internal = {}; do
 		end
 	end
 
-	internal.styleComponent = function(component, style: FluentTypes.fluent_interface)
+	internal.styleComponent = function(component, style: FluentTypes.fluent_interface, MARKUP_INFO)
 		if (style == nil) then return end
-
-		if (table.find(internal.markupStyles, component:GetAttribute(Definitions.CLASS_NAME))) then
+		
+		local class = component:GetAttribute(Definitions.CLASS_NAME)
+		if (table.find(internal.markupStyles, class)) then
 			if (not component:IsA("Folder") and component:IsA("StringValue")) then
 				if (component.Value == "") then 
 					component.Value = style.MARKUP_VALUE or '{"FLUENT_VALUE":"empty_object"}'; end
 			end; return
+		end; if (class == "var") then
+			String.variable.actions.createVariable({
+				name = MARKUP_INFO[1],
+				value = style.MARKUP_VALUE
+			})
 		end
 
 		-- Styles
