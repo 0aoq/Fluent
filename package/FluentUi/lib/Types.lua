@@ -13,7 +13,7 @@ export type fluent_interface = { -- allow for auto complete while styling classe
 	Opacity: number,
 	Name: string,
 	hidden: boolean,
-	autoColor: boolean,
+    autoColor: boolean,
 
 	-- flex
 	isFlex: boolean,
@@ -47,7 +47,9 @@ export type fluent_interface = { -- allow for auto complete while styling classe
 	FontFamily: string | Enum.Font,
 	Color: Color3,
 	isRichText: boolean,
-	ScaledFont: boolean,
+    ScaledFont: boolean,
+    isItalic: boolean,
+    isBold: boolean,
 
 	-- events
 	onhover: any,
@@ -56,7 +58,11 @@ export type fluent_interface = { -- allow for auto complete while styling classe
 	run: any,
 
 	-- markup
-	MARKUP_VALUE: string,
+    MARKUP_VALUE: string,
+    
+    -- syntax
+    isCode: boolean,
+    language: string
 }
 
 export type fluent_component = {

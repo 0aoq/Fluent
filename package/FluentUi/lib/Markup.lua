@@ -57,7 +57,7 @@ local import = {}; do
 						getTag(after, "param5") or "", getTag(after, "param6") or "",
 						getTag(after, "param7") or "", getTag(after, "param8") or "",
 					}
-					
+                    
 					pre = state_manager.components.addComponent({ -- create each component
 						componentName = x.tag or "FluentEmpty",
 						type = x.typ or "Frame",

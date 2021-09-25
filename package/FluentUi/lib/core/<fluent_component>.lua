@@ -11,58 +11,63 @@ local internal = require(script.Parent["<fluent>"])
 local FluentTypes = require(script.Parent.Parent.Types)
 
 local import = {}; do
-	import.components = {}; do
-		import.components.createComponent = function(component: FluentTypes.fluent_component)
-			if (not internal.styleSheet) then return warn("[Fluent]: Styles have not been rendered!") end
+    import.components = {}; do
+        import.components.createComponent = function(component: FluentTypes.fluent_component)
+            if (not internal.styleSheet) then return warn("[Fluent]: Styles have not been rendered!") end
 
-			for _,x in pairs(internal.renderedContainers) do
-				internal.components[component.Name] = component
-				internal.styleSheet[component.Name] = component.Styles
+            for _,x in pairs(internal.renderedContainers) do
+                internal.components[component.Name] = component
+                internal.styleSheet[component.Name] = component.Styles
 
-				internal.scanContainer(x, internal.styleSheet, true)
-			end
-		end
+                internal.scanContainer(x, internal.styleSheet, true)
+            end
+        end
 
-		import.components.addComponent = function(
-			componentConfig: FluentTypes.fluent_component_config,
-			interface_function: any,
-			MARKUP_VALUE: string
-		)
-			if (not internal.styleSheet) then return warn("[Fluent]: Styles have not been rendered!") end
+        import.components.addComponent = function(
+            componentConfig: FluentTypes.fluent_component_config,
+            interface_function: any,
+            MARKUP_VALUE: string
+        )
+            if (not internal.styleSheet) then return warn("[Fluent]: Styles have not been rendered!") end
 
-			local name = componentConfig.componentName
+            local name = componentConfig.componentName
 
-			if (name == "head") then 
-				componentConfig.type = "Folder"
-				componentConfig.name = "<" .. name .. ">"
-			elseif (table.find(internal.markupStyles, name)) then 
-				componentConfig.type = "StringValue"
-				componentConfig.name = "<" .. name .. ">"
-			end
+            if (name == "head") then 
+                componentConfig.type = "Folder"
+                componentConfig.name = "<" .. name .. ">"
+            elseif (table.find(internal.markupStyles, name)) then 
+                componentConfig.type = "StringValue"
+                componentConfig.name = "<" .. name .. ">"
+            end
 
-			local __ = Instance.new(componentConfig.type, componentConfig.container)
-			__.Name = componentConfig.name or "FLUENT_COMPONENT:" .. componentConfig.type
-			__:SetAttribute("FLUENT_UI_CLASS", componentConfig.componentName)
-			if (interface_function) then interface_function(__); end
-			if (__:IsA("StringValue")) then __.Value = MARKUP_VALUE; end
+            local __ = Instance.new(componentConfig.type, componentConfig.container)
+            __.Name = componentConfig.name or "FLUENT_COMPONENT:" .. componentConfig.type
+            __:SetAttribute("FLUENT_UI_CLASS", componentConfig.componentName)
+            if (interface_function) then interface_function(__); end
+            if (__:IsA("StringValue")) then __.Value = MARKUP_VALUE; end
 
-			local style = internal.bin.getStyle(componentConfig.name)
-			
-			internal.scanContainer(componentConfig.container, style, true)
-			internal.styleComponent(__, style)
+            local style = internal.bin.getStyle(componentConfig.name)
 
-			internal.setMeta(componentConfig.container, true, true, false)
-			internal.setMeta(__, false, true, false)
+            internal.scanContainer(componentConfig.container, style, true)
+            internal.styleComponent(__, style)
 
-			return __
-		end
+            internal.setMeta(componentConfig.container, true, true, false)
+            internal.setMeta(__, false, true, false)
+            
+            if (not __:IsA("Folder") and not __:IsA("StringValue")) then
+                __:SetAttribute("fluent_origin_position", __.Position)
+                __:SetAttribute("fluent_origin_size", __.Size)
+            end
 
-		import.components.removeComponent = function(componentName: string)
-			for _,x in pairs(internal.components) do
-				if (x == componentName) then
-					internal.components[x] = nil
-				end
-			end
-		end
-	end
+            return __
+        end
+
+        import.components.removeComponent = function(componentName: string)
+            for _,x in pairs(internal.components) do
+                if (x == componentName) then
+                    internal.components[x] = nil
+                end
+            end
+        end
+    end
 end; return import
