@@ -49,7 +49,7 @@ local import = {}; do
             local style = internal.bin.getStyle(componentConfig.name)
 
             internal.scanContainer(componentConfig.container, style, true)
-            internal.styleComponent(__, style)
+            internal.styleComponent(__, style); internal.styleComponent(__, componentConfig.extraStyles)
 
             internal.setMeta(componentConfig.container, true, true, false)
             internal.setMeta(__, false, true, false)

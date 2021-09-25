@@ -74,7 +74,8 @@ export type fluent_component_config = {
 	componentName: string,
 	name: string,
 	type: string,
-	container: any
+    container: any,
+    extraStyles: fluent_interface
 }
 
 -- file types
@@ -84,7 +85,8 @@ export type fluent_file_content = {
 	par: any, -- containing parent
 	opt: any, -- function for extra styling
 	con: {fluent_file_content}, -- extra markup within
-	MARKUP_VALUE: string
+    MARKUP_VALUE: string,
+    styles: fluent_interface
 }
 
 export type fluent_file = {

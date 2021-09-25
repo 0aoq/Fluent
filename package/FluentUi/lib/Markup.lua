@@ -61,7 +61,8 @@ local import = {}; do
 					pre = state_manager.components.addComponent({ -- create each component
 						componentName = x.tag or "FluentEmpty",
 						type = x.typ or "Frame",
-						container = x.par or cont
+                        container = x.par or cont,
+                        extraStyles = x.styles or {}
                     }, x.opt or function() end, x.MARKUP_VALUE or '{"FLUENT_VALUE":"empty_object"}', _args)
                     table.insert(components, pre)
 
