@@ -56,7 +56,7 @@ export type fluent_interface = { -- allow for auto complete while styling classe
 	run: any,
 
 	-- markup
-	MARKUP_VALUE: string
+	MARKUP_VALUE: string,
 }
 
 export type fluent_component = {
@@ -84,6 +84,33 @@ export type fluent_file_content = {
 export type fluent_file = {
 	Name: string,
 	Contents: {fluent_file_content}
+}
+
+-- new
+export type C_TweenService = {
+    time: number,
+    style: Enum.EasingStyle,
+    direction: Enum.EasingDirection,
+    TweenTable: {}
+}
+
+export type fluent_new_action_runtime = {
+    Tween: C_TweenService
+}
+
+export type fluent_new_action_mount = {
+    name: string,
+    runtime: fluent_new_action_runtime
+}
+
+export type fluent_new_action = {
+    Tween: boolean
+}
+
+export type fluent_new_action_manager = {
+    mount: any,
+    runtime: string,
+    actions: fluent_new_action
 }
 
 return nil

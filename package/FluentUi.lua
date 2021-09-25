@@ -10,7 +10,9 @@ local internal = require(script.lib.core["<fluent>"])
 local state_manager = require(script.lib.core["<fluent_component>"])
 local markup = require(script.lib.Markup)
 
-local _0aoq_fluent = {}; do
+local _0aoq_fluent = {
+    Actions = require(script.lib.core.fluentaction)
+}; do
     _G.FluentUi = {
         name = "FluentUi",
         author = "0a_oq"
@@ -68,11 +70,7 @@ local _0aoq_fluent = {}; do
 	
 	-- define functions that are defined in other files
 	
-    _0aoq_fluent.file = {}; do
-		_0aoq_fluent.file.load = markup.file.load
-		_0aoq_fluent.file.create = markup.file.create
-	end
-	
+    _0aoq_fluent.file = markup.file
 	_0aoq_fluent.createComponent = state_manager.components.createComponent
-	_0aoq_fluent.addComponent = state_manager.components.addComponent
+    _0aoq_fluent.addComponent = state_manager.components.addComponent
 end; return _0aoq_fluent
