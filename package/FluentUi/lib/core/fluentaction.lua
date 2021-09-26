@@ -13,7 +13,7 @@ local TweenService = game:GetService("TweenService")
 local FluentTypes = require(script.Parent.Parent.Types)
 local console = require(script.Parent.Parent.packages.log)
 
-local lib = {}; do
+local lib = {}; do    
     lib.StreamManager = {}; do
         local streams = {}
         lib.StreamManager.CreateRuntime = function(i: FluentTypes.fluent_new_action_mount)
@@ -43,5 +43,10 @@ local lib = {}; do
                 -- END HANDLE ACTIONS
             else console.warn("Failed to run action stream: Runtime doesn't exist.", script); end
         end
+    end
+    
+    -- short function for creating a manager
+    lib.Run = function(x, runtime: string, actions: FluentTypes.fluent_new_action)
+        return lib.StreamManager.CreateManager({mount = x, runtime = runtime, actions = actions})
     end
 end; return lib

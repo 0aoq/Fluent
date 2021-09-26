@@ -14,6 +14,7 @@ export type fluent_interface = { -- allow for auto complete while styling classe
 	Name: string,
 	hidden: boolean,
     autoColor: boolean,
+    instanceType: string,
 
 	-- flex
 	isFlex: boolean,

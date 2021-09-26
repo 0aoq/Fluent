@@ -7,12 +7,13 @@ OPEN SOURCE AT: https://github.com/0aoq/FluentUi
 Primary internal script. Responsible for all component styling
 --]]
 
-local Definitions = require(script.Parent.Parent.Definitions)
+local val = require(script.Parent.Parent.Definitions)
 local FluentTypes = require(script.Parent.Parent.Types)
 local String = {variable = require(script.Parent.Parent.packages["String.variable"])};
 local Syntax = require(script.Parent.Parent.packages.SyntaxHighlighting)
 
 local TweenService = game:GetService("TweenService")
+local Http = game:GetService("HttpService")
 
 local internal = {}; do
     internal.renderedContainers = {}
@@ -58,14 +59,25 @@ local internal = {}; do
                 internal.setMeta(UiListLayout, false, true, true)
             end
         end; internal.styleValues.BoxShadow = function(component, style) -- @fluent_style:BoxShadow
+            if (component.Parent:FindFirstChild("Fluent_BoxShadow")) then return end
+            
             local frame = Instance.new("Frame", component.Parent)
             component.Parent = frame
             frame.Name = component.Name
             frame.Size = component.Size
             frame.Position = component.Position
             frame.BackgroundTransparency = 1
-            component.Size = UDim2.new(1, 0, 1, 0)
-            component.Position = UDim2.new(0, 0, 0, 0)
+            
+            frame:SetAttribute("fluent_origin_size", frame.Size)
+            frame:SetAttribute("fluent_origin_position", frame.Position)
+            
+            task.spawn(function()
+                for i = 1, 100, 1 do
+                    wait(0.01)
+                    component.Size = UDim2.new(1, 0, 1, 0)
+                    component.Position = UDim2.new(0, 0, 0, 0)
+                end
+            end)
 
             local boxshadow = Instance.new("ImageLabel", frame)
 
@@ -96,7 +108,7 @@ local internal = {}; do
                 boxshadow.Position = component.Position + UDim2.new(-0.1, 0, -0.1, 0)
             end
 
-            boxshadow.Name = "BoxShadow"
+            boxshadow.Name = "Fluent_BoxShadow"
             boxshadow.BackgroundTransparency = 1
             component.ZIndex = component.ZIndex + 1
             boxshadow.ZIndex = component.ZIndex - 1
@@ -140,8 +152,12 @@ local internal = {}; do
 
     internal.styleComponent = function(component, style: FluentTypes.fluent_interface, MARKUP_INFO)
         if (style == nil) then return end
+        
+        local appliedStyles = component:GetAttribute(val.APPLIED_STYLES)
+        if (not appliedStyles) then appliedStyles = '{}'; end
+        appliedStyles = Http:JSONDecode(appliedStyles)
 
-        local class = component:GetAttribute(Definitions.CLASS_NAME)
+        local class = component:GetAttribute(val.CLASS_NAME)
         if (table.find(internal.markupStyles, class)) then
             if (not component:IsA("Folder") and component:IsA("StringValue")) then
                 if (component.Value == "") then 
@@ -171,7 +187,10 @@ local internal = {}; do
             if (style[x] == true or
                 typeof(style[x]) == "number")
             then 
-                internal.styleValues[x](component, style) 
+                if (not table.find(appliedStyles, x)) then
+                    table.insert(appliedStyles, x)
+                    internal.styleValues[x](component, style, x) 
+                end
             end
         end
 
@@ -216,6 +235,9 @@ local internal = {}; do
         if (style.run) then
             coroutine.wrap(style.run)(Instance.new("LocalScript", component), component)
         end
+        
+        -- Finish Up
+        component:SetAttribute(val.APPLIED_STYLES, Http:JSONEncode(appliedStyles))
     end
 
     -- scan container for classes
@@ -228,7 +250,7 @@ local internal = {}; do
         if (container == nil) then return warn("[Fluent]: Components cannot be mounted onto null containers") end
         for _,component in pairs(container:GetDescendants()) do
             if (not component:IsA("LocalScript")) then
-                internal.styleComponent(component, bin.getStyle(component:GetAttribute(Definitions.CLASS_NAME)))
+                internal.styleComponent(component, bin.getStyle(component:GetAttribute(val.CLASS_NAME)))
             end
         end
     end

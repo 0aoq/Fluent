@@ -9,6 +9,11 @@ return {
 
         sizeX = 0.15;
         sizeY = 0.03;
+        
+        PaddingTop = 0.1;
+        PaddingBottom = 0.1;
+        PaddingLeft = 0.1;
+        PaddingRight = 0.1;
 
         active = function(self)
             TweenService:Create(self, TweenInfo.new(0.05), {BackgroundTransparency = 0.2}):Play()
@@ -46,6 +51,6 @@ return {
         isCode = true;
         language = "lua";
         
-        overwriteType = "TextBox"
+        instanceType = "TextBox";
     }
 }

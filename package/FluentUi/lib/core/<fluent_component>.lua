@@ -39,14 +39,14 @@ local import = {}; do
                 componentConfig.type = "StringValue"
                 componentConfig.name = "<" .. name .. ">"
             end
+            
+            local style = internal.bin.getStyle(componentConfig.name)
 
-            local __ = Instance.new(componentConfig.type, componentConfig.container)
+            local __ = Instance.new(componentConfig.type or style.instanceType, componentConfig.container)
             __.Name = componentConfig.name or "FLUENT_COMPONENT:" .. componentConfig.type
             __:SetAttribute("FLUENT_UI_CLASS", componentConfig.componentName)
             if (interface_function) then interface_function(__); end
             if (__:IsA("StringValue")) then __.Value = MARKUP_VALUE; end
-
-            local style = internal.bin.getStyle(componentConfig.name)
 
             internal.scanContainer(componentConfig.container, style, true)
             internal.styleComponent(__, style); internal.styleComponent(__, componentConfig.extraStyles)
