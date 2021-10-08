@@ -11,7 +11,8 @@ local state_manager = require(script.lib.core["<fluent_component>"])
 local markup = require(script.lib.Markup)
 
 local _0aoq_fluent = {
-    Actions = require(script.lib.core.fluentaction)
+	Actions = require(script.lib.core.fluentaction),
+	UIEvents = require(script.lib.packages.UIEvents)
 }; do
     _G.FluentUi = {
         name = "FluentUi",
