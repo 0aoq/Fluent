@@ -7,6 +7,13 @@
 ]]
 
 local RunService = game:GetService("RunService")
+local Storage = game:GetService("ReplicatedStorage")
+
+_G["Fluent.UIEvent"] = {
+	Name = "Fluent.UIEvent",
+	Author = "0a_oq",
+	Enabled = true
+}
 
 local checkClient, checkServer = 
 	(function() return RunService:IsClient(); end),  (function() return RunService:IsServer(); end)
@@ -24,11 +31,21 @@ local lib = {}; do
 		hasEvent: boolean?
 	}
 
+	-- create server assets
+	local _remote, _remote1 = nil, nil
+	lib.Server = function()
+		local __ = Instance.new("RemoteEvent", Storage); __.Name = "Fluent.UIEvents://DirectPassage"
+		local ___ = Instance.new("RemoteEvent", Storage); ___.Name = "Fluent.UIEvents://Passage"
+
+		__.OnServerEvent:Connect(function(Player, args) events[args.config.Name] = args.config
+		end); ___.OnServerEvent:Connect(function(Player, EventName) return events[EventName] or nil; end)
+	end
+
 	-- handle events
-	lib.CreateEvent = function(config: EventConfig) 
+	lib.CreateEvent = function(config: EventConfig)
 		-- create an event, and configure the event.Remote function to handle client events
 		config.Remote = (function()
-			local remote = game:GetService("ReplicatedStorage"):FindFirstChild(config.Name)
+			local remote = Storage:FindFirstChild(config.Name)
 			if (not remote) then return; end
 			remote.OnClientEvent:Connect(function(args)
 				config.Action(
@@ -36,12 +53,25 @@ local lib = {}; do
 					args
 				); config.hasEvent = true
 			end)
-		end); events[config.Name] = config 
+		end); if (checkClient()) then
+			events[config.Name] = config
+		elseif (checkServer()) then
+			if (_remote) then _remote:FireServer({ config = config }) else
+				warn("[UIEvents]: Please run UIEvents.Server() before creating events on the server.")
+			end
+		end
 	end
 
 	lib.RunEvent = function(Name, Player, args)
 		-- handle event running
-		local e: EventConfig = events[Name]; if (e) then
+		local __;
+		if (checkClient()) then 
+			if (not events[Name]) then
+				__ = Storage:WaitForChild("Fluent.UIEvents://Passage"):FireServer(Name) or nil
+			else __ = events [Name]; end
+		end
+
+		local e: EventConfig = events[Name] or __; if (e) then
 			if (e.Player) then if (Player.Name ~= e.Player) then return; end; end
 
 			local PLAYER_INSTANCE = game:GetService("Players"):FindFirstChild(Player)
@@ -50,7 +80,7 @@ local lib = {}; do
 			if (e.Action) then
 				if (checkServer()) then
 					-- we're on the server, run function with server info
-					local remote = game:GetService("ReplicatedStorage"):FindFirstChild(e.Name)
+					local remote = Storage:FindFirstChild(e.Name) or Instance.new("RemoteEvent", Storage); remote.Name = e.Name
 					if (remote) then remote:FireClient(PLAYER_INSTANCE, args); end
 				else
 					-- we're on the client, run function full client side
