@@ -3,7 +3,6 @@
 LICENSED UNDER THE MIT LICENSE
 OPEN SOURCE AT: https://github.com/0aoq/FluentUi
 ================= 0aoq/FluentUi =================
-
 Primary internal script. Responsible for all component styling
 --]]
 
@@ -60,17 +59,17 @@ local internal = {}; do
             end
         end; internal.styleValues.BoxShadow = function(component, style) -- @fluent_style:BoxShadow
             if (component.Parent:FindFirstChild("Fluent_BoxShadow")) then return end
-            
+
             local frame = Instance.new("Frame", component.Parent)
             component.Parent = frame
             frame.Name = component.Name
             frame.Size = component.Size
             frame.Position = component.Position
             frame.BackgroundTransparency = 1
-            
+
             frame:SetAttribute("fluent_origin_size", frame.Size)
             frame:SetAttribute("fluent_origin_position", frame.Position)
-            
+
             task.spawn(function()
                 for i = 1, 100, 1 do
                     wait(0.01)
@@ -140,9 +139,9 @@ local internal = {}; do
                 tempInstance.Name = "FLUENT_UI_STROKE"
             end; internal.setMeta(tempInstance, false, true, true)
         end
-        
+
         internal.styleValues.isCode = function(component, style) Syntax.colorize(component, style.language); end
-        
+
         -- isItalic/isBold
         internal.styleValues.isItalic = function(component, style) 
             component.RichText = true; component.Text = "<i>" .. component.Text .. "</i>"; end
@@ -152,7 +151,7 @@ local internal = {}; do
 
     internal.styleComponent = function(component, style: FluentTypes.fluent_interface, MARKUP_INFO)
         if (style == nil) then return end
-        
+
         local appliedStyles = component:GetAttribute(val.APPLIED_STYLES)
         if (not appliedStyles) then appliedStyles = '{}'; end
         appliedStyles = Http:JSONDecode(appliedStyles)
@@ -176,6 +175,7 @@ local internal = {}; do
         component.Position = style.Pos or component.Position
         component.Name = style.Name or component.Name
         component.BackgroundTransparency = style.Opacity or component.BackgroundTransparency
+        component.BorderSizePixel = 0
 
         if (style.sizeX and style.sizeY) then -- set size
             component.Size = UDim2.new(style.sizeX , 0, style.sizeY, 0)
@@ -235,7 +235,7 @@ local internal = {}; do
         if (style.run) then
             coroutine.wrap(style.run)(Instance.new("LocalScript", component), component)
         end
-        
+
         -- Finish Up
         component:SetAttribute(val.APPLIED_STYLES, Http:JSONEncode(appliedStyles))
     end

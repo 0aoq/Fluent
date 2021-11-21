@@ -46,6 +46,7 @@ local import = {}; do
             __:SetAttribute("FLUENT_UI_CLASS", componentConfig.componentName)
             if (interface_function) then interface_function(__); end
             if (__:IsA("StringValue")) then __.Value = MARKUP_VALUE; end
+            if (typeof(__):find("Text")) then __.Text = MARKUP_VALUE; end
 
             internal.scanContainer(componentConfig.container, style, true)
             internal.styleComponent(__, style); internal.styleComponent(__, componentConfig.extraStyles)

@@ -5,3 +5,4 @@ Fluent is a simple Roblox Luau UI framework that creates GUIs based on component
 ## Index
 
 - [Values list](https://0aoq.github.io/Fluent/view/?md/api/values.md)
+- [Markup](https://0aoq.github.io/Fluent/view/?md/api/markup.md)

@@ -8,6 +8,7 @@ Primary markup file manager
 
 local FluentTypes = require(script.Parent.Types)
 local Fluent = require(script.Parent.core["<fluent>"])
+local stylesheet = require(script.Parent.Stylesheet)
 local state_manager = require(script.Parent.core["<fluent_component>"])
 
 local import = {}; do
@@ -20,7 +21,7 @@ local import = {}; do
     import.file = {}; do
         local files = {}
 
-        import.file.load = function(fileName: string, container)
+        import.file.load = function(fileName: string, container, _stylesheet)
             local file = files[fileName]; if (not file) then return warn("[Fluent]: File does not exist!"); end
 
             local temp_container = Instance.new("ScreenGui", container)
@@ -36,6 +37,7 @@ local import = {}; do
                     local after = c:split("?")[2]:sub(1) -- <TagName? value="">
 
                     x.tag = c:split("?")[1] -- <TagName?>
+                    stylesheet[x.tag] = _stylesheet[x.tag] or nil
                     x.typ = getTag(after, "type") -- <TagName? type="__THIS">
 
                     local specialValues = {"&;", "^"} -- special values that won't load from container
@@ -56,7 +58,9 @@ local import = {}; do
                         getTag(after, "param5") or "", getTag(after, "param6") or "",
                         getTag(after, "param7") or "", getTag(after, "param8") or "",
                     }
-
+                    
+                    local pre_pre;
+                    pre_pre = pre
                     pre = state_manager.components.addComponent({ -- create each component
                         componentName = x.tag or "FluentEmpty",
                         type = x.typ or "Frame",
@@ -65,6 +69,20 @@ local import = {}; do
                         name = getTag(after, "name") or nil
                     }, x.opt or function() end, x.MARKUP_VALUE or '{"FLUENT_VALUE":"empty_object"}', _args)
                     table.insert(components, pre)
+                    
+                    local function checkObject(_obj) 
+                        -- check object type for ZIndex support
+                        if (_obj == nil) then return false; end
+                        if (_obj:IsA("Frame") or
+                            _obj:IsA("TextLabel") or
+                            _obj:IsA("TextBox") or
+                            _obj:IsA("TextButton")) then return true
+                        else 
+                            return false; end
+                    end
+                    
+                    if (checkObject(pre) and checkObject(pre_pre)) 
+                    then pre.ZIndex = pre_pre.ZIndex + 0.1; end
 
                     if (x.con) then __(x.con, pre); end -- create components for nested markup
                 end

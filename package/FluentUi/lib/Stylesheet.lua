@@ -9,7 +9,7 @@ return {
 
         sizeX = 0.15;
         sizeY = 0.03;
-        
+
         PaddingTop = 0.1;
         PaddingBottom = 0.1;
         PaddingLeft = 0.1;
@@ -42,15 +42,16 @@ return {
         ScaledFont = true;
         sizeX = 0.25;
         sizeY = 0.15;
-        
+
         PaddingTop = 0.1;
         PaddingBottom = 0.1;
         PaddingLeft = 0.1;
         PaddingRight = 0.1;
-        
+
         isCode = true;
         language = "lua";
-        
+
         instanceType = "TextBox";
-    }
+    },
+    span = { FontFamily = Enum.Font.Ubuntu; ScaledFont = true; sizeX = 0.1; sizeY = 0.1; }
 }

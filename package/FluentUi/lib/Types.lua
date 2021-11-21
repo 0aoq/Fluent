@@ -5,65 +5,65 @@
 
 export type fluent_interface = { -- allow for auto complete while styling classes
     -- any
-    BorderRadius: number,
-    sizeX: number,
-    sizeY: number,
-    Pos: UDim2,
-    Background: Color3,
-    Opacity: number,
-    Name: string,
-    hidden: boolean,
-    autoColor: boolean,
-    instanceType: string,
+    BorderRadius: number?,
+    sizeX: number?,
+    sizeY: number?,
+    Pos: UDim2?,
+    Background: Color3?,
+    Opacity: number?,
+    Name: string?,
+    hidden: boolean?,
+    autoColor: boolean?,
+    instanceType: string?,
 
     -- flex
-    isFlex: boolean,
-    alignX: string,
-    alignY: string,
-    flexOrder: string,
-    flexPadding: number,
+    isFlex: boolean?,
+    alignX: string?,
+    alignY: string?,
+    flexOrder: string?,
+    flexPadding: number?,
 
     -- boxshadow
-    BoxShadow: boolean,
-    boxShadowStyle: number,
-    boxShadowAlpha: number,
+    BoxShadow: boolean?,
+    boxShadowStyle: number?,
+    boxShadowAlpha: number?,
 
     -- padding
-    Padding: boolean,
-    PaddingTop: number,
-    PaddingBottom: number,
-    PaddingLeft: number,
-    PaddingRight: number,
+    Padding: boolean?,
+    PaddingTop: number?,
+    PaddingBottom: number?,
+    PaddingLeft: number?,
+    PaddingRight: number?,
 
     -- border
-    Border: boolean,
-    BorderColor: Color3,
-    BorderThickness: number,
-    BorderOpacity: number,
-    BorderJoinMode: string,
-    BorderApplyMode: string,
+    Border: boolean?,
+    BorderColor: Color3?,
+    BorderThickness: number?,
+    BorderOpacity: number?,
+    BorderJoinMode: string?,
+    BorderApplyMode: string?,
 
     -- text
-    Content: string,
-    FontFamily: string | Enum.Font,
-    Color: Color3,
-    isRichText: boolean,
-    ScaledFont: boolean,
-    isItalic: boolean,
-    isBold: boolean,
+    Content: string?,
+    FontFamily: string | Enum.Font?,
+    Color: Color3?,
+    isRichText: boolean?,
+    ScaledFont: boolean?,
+    isItalic: boolean?,
+    isBold: boolean?,
 
     -- events
-    onhover: any,
-    onunhover: any,
-    active: any,
-    run: any,
+    onhover: any?,
+    onunhover: any?,
+    active: any?,
+    run: any?,
 
     -- markup
-    MARKUP_VALUE: string,
+    MARKUP_VALUE: string?,
 
     -- syntax
-    isCode: boolean,
-    language: string
+    isCode: boolean?,
+    language: string?
 }
 
 export type fluent_component = {
@@ -76,8 +76,11 @@ export type fluent_component_config = {
     name: string,
     type: string,
     container: any,
-    extraStyles: fluent_interface,
-    name: string
+    extraStyles: fluent_interface
+}
+
+export type fluent_stylesheet = {
+    fluent_stylesheet | fluent_interface
 }
 
 -- file types
