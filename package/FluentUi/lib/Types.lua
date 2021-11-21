@@ -4,95 +4,96 @@
 ]]
 
 export type fluent_interface = { -- allow for auto complete while styling classes
-	-- any
-	BorderRadius: number,
-	sizeX: number,
-	sizeY: number,
-	Pos: UDim2,
-	Background: Color3,
-	Opacity: number,
-	Name: string,
-	hidden: boolean,
+    -- any
+    BorderRadius: number,
+    sizeX: number,
+    sizeY: number,
+    Pos: UDim2,
+    Background: Color3,
+    Opacity: number,
+    Name: string,
+    hidden: boolean,
     autoColor: boolean,
     instanceType: string,
 
-	-- flex
-	isFlex: boolean,
-	alignX: string,
-	alignY: string,
-	flexOrder: string,
-	flexPadding: number,
+    -- flex
+    isFlex: boolean,
+    alignX: string,
+    alignY: string,
+    flexOrder: string,
+    flexPadding: number,
 
-	-- boxshadow
-	BoxShadow: boolean,
-	boxShadowStyle: number,
-	boxShadowAlpha: number,
+    -- boxshadow
+    BoxShadow: boolean,
+    boxShadowStyle: number,
+    boxShadowAlpha: number,
 
-	-- padding
-	Padding: boolean,
-	PaddingTop: number,
-	PaddingBottom: number,
-	PaddingLeft: number,
-	PaddingRight: number,
+    -- padding
+    Padding: boolean,
+    PaddingTop: number,
+    PaddingBottom: number,
+    PaddingLeft: number,
+    PaddingRight: number,
 
-	-- border
-	Border: boolean,
-	BorderColor: Color3,
-	BorderThickness: number,
-	BorderOpacity: number,
-	BorderJoinMode: string,
-	BorderApplyMode: string,
+    -- border
+    Border: boolean,
+    BorderColor: Color3,
+    BorderThickness: number,
+    BorderOpacity: number,
+    BorderJoinMode: string,
+    BorderApplyMode: string,
 
-	-- text
-	Content: string,
-	FontFamily: string | Enum.Font,
-	Color: Color3,
-	isRichText: boolean,
+    -- text
+    Content: string,
+    FontFamily: string | Enum.Font,
+    Color: Color3,
+    isRichText: boolean,
     ScaledFont: boolean,
     isItalic: boolean,
     isBold: boolean,
 
-	-- events
-	onhover: any,
-	onunhover: any,
-	active: any,
-	run: any,
+    -- events
+    onhover: any,
+    onunhover: any,
+    active: any,
+    run: any,
 
-	-- markup
+    -- markup
     MARKUP_VALUE: string,
-    
+
     -- syntax
     isCode: boolean,
     language: string
 }
 
 export type fluent_component = {
-	Name: string,
-	Styles: fluent_interface
+    Name: string,
+    Styles: fluent_interface
 }
 
 export type fluent_component_config = {
-	componentName: string,
-	name: string,
-	type: string,
+    componentName: string,
+    name: string,
+    type: string,
     container: any,
-    extraStyles: fluent_interface
+    extraStyles: fluent_interface,
+    name: string
 }
 
 -- file types
 export type fluent_file_content = {
-	tag: string,
-	typ: string,
-	par: any, -- containing parent
-	opt: any, -- function for extra styling
-	con: {fluent_file_content}, -- extra markup within
+    tag: string,
+    typ: string,
+    par: any, -- containing parent
+    opt: any, -- function for extra styling
+    con: {fluent_file_content}, -- extra markup within
     MARKUP_VALUE: string,
     styles: fluent_interface
 }
 
 export type fluent_file = {
-	Name: string,
-	Contents: {fluent_file_content}
+    Name: string,
+    Contents: {fluent_file_content}
 }
 
 -- new

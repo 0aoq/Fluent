@@ -3,7 +3,6 @@
 LICENSED UNDER THE MIT LICENSE
 OPEN SOURCE AT: https://github.com/0aoq/FluentUi
 ================= 0aoq/FluentUi =================
-
 Primary component state manager script, handles stylesheet definitions
 --]]
 
@@ -39,7 +38,7 @@ local import = {}; do
                 componentConfig.type = "StringValue"
                 componentConfig.name = "<" .. name .. ">"
             end
-            
+
             local style = internal.bin.getStyle(componentConfig.name)
 
             local __ = Instance.new(componentConfig.type or style.instanceType, componentConfig.container)
@@ -53,10 +52,12 @@ local import = {}; do
 
             internal.setMeta(componentConfig.container, true, true, false)
             internal.setMeta(__, false, true, false)
-            
+
             if (not __:IsA("Folder") and not __:IsA("StringValue")) then
                 __:SetAttribute("fluent_origin_position", __.Position)
                 __:SetAttribute("fluent_origin_size", __.Size)
+            end; if (componentConfig.name ~= nil) then
+                __.Name = componentConfig.name
             end
 
             return __
